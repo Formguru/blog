@@ -3,4 +3,5 @@ source 'https://rubygems.org'
 
 # Middleman
 gem 'jekyll'
+gem 'jekyll-paginate'
 gem 'minima'
