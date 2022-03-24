@@ -1,0 +1,2 @@
+# blog
+Guru Blog
