@@ -19,13 +19,14 @@
 # in the templates via {{ site.myvariable }}.
 
 title:               'The Guru Blog'
-description:         'The place where we discuss everything to do with the Guru platform.'
+description:         'Everything to do with the Guru platform.'
 url:                 https://www.getguru.fitness/
 email:               support@getguru.fitness
 baseurl: "" # the subpath of your site, e.g. /blog
+show_downloads: false
 
 # Build settings
-theme: jekyll-theme-cayman
+theme: jekyll-theme-architect
 plugins:
   - jekyll-feed
 
