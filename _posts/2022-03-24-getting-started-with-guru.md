@@ -3,6 +3,8 @@ layout: default
 title: Getting Started with Guru
 ---
 
+# Get Started with Guru in 10 Minutes
+
 The Guru API makes it simple to extract data and insights from video. You can upload someone performing a barbell squat
 and have time-series 2D positional joint data and meaningful form feedback analytics returned within seconds.
 Once you have an authentication token, you can be up and running with the API in under 10 minutes. This guide will show
