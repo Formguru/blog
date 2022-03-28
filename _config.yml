@@ -25,7 +25,7 @@ email:               support@getguru.fitness
 baseurl: "" # the subpath of your site, e.g. /blog
 
 # Build settings
-theme: minima
+theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
 
