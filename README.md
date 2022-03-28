@@ -1,5 +1,4 @@
 # Setup
-Setup:
 1. Install [rbenv](https://github.com/rbenv/rbenv).
 1. Install the bundle
 ```bash
