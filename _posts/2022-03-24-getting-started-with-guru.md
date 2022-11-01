@@ -7,18 +7,21 @@ title: Getting Started with Guru
 
 The Guru API makes it simple to extract data and insights from video. You can upload someone performing a barbell squat
 and have time-series 2D positional joint data and meaningful form feedback analytics returned within seconds.
-Once you have [created an account on Guru](https://console.getguru.fitness/) 
-you can be up and running with the API in under 10 minutes. This guide will show you how, let's go!
+Once you have an authentication token, you can be up and running with the API in under 10 minutes. This guide will show
+you how, let's go!
 
 If you'd rather dive straight into the API docs, you can find them [here](https://docs.getguru.fitness).
 
 ## Authentication
+Before you can make a call you will need to authenticate with the API.
+Begin by contacting Guru to [request access](mailto:support@getguru.fitness?subject=Access+Request).
+This process is quick and painless and ensures we can meet your needs.
 
-Begin by finding your Guru Authentication Credentials. 
-Login to the [Guru Console](https://console.getguru.fitness/), click the menu in the top-left corner,
-and select `API Onboarding`. The next page will show your Client ID and Secret.
+Once you receive your client credentials you will want to store them in a safe place, accessible by your code.
+We use [AWS Secrets Manager](https://aws.amazon.com/secrets-manager), but there are many other alternatives
+available.
 
-You will now need to exchange these credentials for an access token.
+With the credentials stored, it's time to exchange the credentials for an access token.
 Performing this exchange ensures you don't need to send your secret credentials on every call, and can
 instead use temporary tokens that are easier to revoke if compromised.
 The token exchange is performed using a common flow called the [OAuth Client-Credential Flow](https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-credentials-flow).
@@ -28,7 +31,7 @@ curl -XPOST -H "Content-Type: application/x-www-form-urlencoded" \
  -d "client_id=CLIENT_ID&client_secret=CLIENT_SECRET&audience=https://api.formguru.fitness/&grant_type=client_credentials" \
  https://guru-prod.us.auth0.com/oauth/token
 ```
-The `CLIENT_ID` and `CLIENT_SECRET` are the credentials that you retrieved from the Guru Console.
+The `CLIENT_ID` and `CLIENT_SECRET` are the credentials that you have received from Guru.
 
 This call will respond with a JSON document that looks like this:
 ```json
