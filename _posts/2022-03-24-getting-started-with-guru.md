@@ -7,31 +7,28 @@ title: Getting Started with Guru
 
 The Guru API makes it simple to extract data and insights from video. You can upload someone performing a barbell squat
 and have time-series 2D positional joint data and meaningful form feedback analytics returned within seconds.
-Once you have an authentication token, you can be up and running with the API in under 10 minutes. This guide will show
-you how, let's go!
+Once you have [created an account on Guru](https://console.getguru.fitness/) 
+you can be up and running with the API in under 10 minutes. This guide will show you how, let's go!
 
 If you'd rather dive straight into the API docs, you can find them [here](https://docs.getguru.fitness).
 
 ## Authentication
-Before you can make a call you will need to authenticate with the API.
-Begin by contacting Guru to [request access](mailto:support@getguru.fitness?subject=Access+Request).
-This process is quick and painless and ensures we can meet your needs.
 
-Once you receive your client credentials you will want to store them in a safe place, accessible by your code.
-We use [AWS Secrets Manager](https://aws.amazon.com/secrets-manager), but there are many other alternatives
-available.
+Begin by finding your Guru Authentication Credentials. 
+Login to the [Guru Console](https://console.getguru.fitness/), click the menu in the top-left corner,
+and select `API Onboarding`. The next page will show your Client ID and Secret.
 
-With the credentials stored, it's time to exchange the credentials for an access token.
+You will now need to exchange these credentials for an access token.
 Performing this exchange ensures you don't need to send your secret credentials on every call, and can
 instead use temporary tokens that are easier to revoke if compromised.
-The token exchange is performed using a common flow called the [OAuth Client-Credential Flow](https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-credentials-flow).
+The token exchange is performed using a flow called the [OAuth Client-Credential Flow](https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-credentials-flow).
 Here's how to perform the exchange (we use `curl` to demonstrate the calls in this article, but any HTTP request library will work):
 ```bash
-curl -XPOST -H "Content-Type: application/x-www-form-urlencoded" \
- -d "client_id=CLIENT_ID&client_secret=CLIENT_SECRET&audience=https://api.formguru.fitness/&grant_type=client_credentials" \
- https://guru-prod.us.auth0.com/oauth/token
+curl -XPOST -H 'Content-Type: application/x-www-form-urlencoded' \
+ -d 'grant_type=client_credentials&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&scope=https://api.getguru.fitness/default' \
+ https://customer-console-prod.auth.us-west-2.amazoncognito.com/oauth2/token
 ```
-The `CLIENT_ID` and `CLIENT_SECRET` are the credentials that you have received from Guru.
+The `CLIENT_ID` and `CLIENT_SECRET` are the credentials that you retrieved from the Guru Console.
 
 This call will respond with a JSON document that looks like this:
 ```json
@@ -42,7 +39,7 @@ This call will respond with a JSON document that looks like this:
 }
 ```
 You will need to save the `access_token`. This is the value you will pass in the Authorization header to make calls to Guru.
-It is recommended to re-use a token for multiple calls to ensure your integration is fast and available.
+It is necessary to re-use each token for multiple calls to ensure your integration is fast and available.
 Also note the `expires_in` field: this tells you how long (in seconds) the token is valid for.
 Once the token expires, you can make the same call to retrieve a new token.
 
@@ -52,7 +49,7 @@ Use your phone to record yourself (or an understanding co-worker) doing a few bo
 Guru works best with `mp4`, but can also handle `webm` and `mov` videos if needed.
 Once you have the video, you first need to tell Guru about your video:
 ```bash
-curl -XPOST -H "Content-Type: application/json" -H "Authorization: Bearer ACCESS_TOKEN" \
+curl -XPOST -H "Content-Type: application/json" -H "Authorization: ACCESS_TOKEN" \
  -d '{"filename": "squat.mp4", "size": 1234, "domain": "weightlifting", "activity": "squat", "repCount": 5, "source": "my-service"}' \
  https://api.getguru.fitness/videos
 ```
@@ -101,7 +98,7 @@ Congratulations, your video is now being analysed by Guru!
 ## Fetching the Analysis
 Depending on its length the analysis process can take up to a minute. You can poll the status of the analysis using:
 ```bash
-curl -H "Authorization: Bearer xxxxxxxxxxxxxxxxxxxx" https://api.getguru.fitness/videos/abc-123
+curl -H "Authorization: ACCESS_TOKEN" https://api.getguru.fitness/videos/abc-123
 ```
 This call will return a response like:
 ```json
@@ -116,7 +113,7 @@ The returned `uri` can be used to download the original video if required.
 
 Once analysis has completed you can fetch a high-level summary of the analysis using:
 ```bash
-curl -H "Authorization: Bearer xxxxxxxxxxxxxxxxxxxx" https://api.getguru.fitness/videos/abc-123/analysis
+curl -H "Authorization: ACCESS_TOKEN" https://api.getguru.fitness/videos/abc-123/analysis
 ```
 This will return a response like:
 ```json
